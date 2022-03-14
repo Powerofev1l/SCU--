@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <div class="layui-inline">
+                <button id="refresh" type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 刷 新</button>
+            </div>
+        </fieldset>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+    </div>
+</div>
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            table = layui.table;
+        table.render({
+            elem: '#currentTableId',
+            url: '/getOutUsers',
+            cols: [ [
+                {type: "checkbox", width: 50},
+                {field: 'bookId', width: 80, title: '书籍ID'},
+                {field: 'bookName', width: 150, title: '书籍'},
+                {field: 'userId', width: 80, title: '用户ID'},
+                {field: 'userName', width: 150, title: '用户名'},
+                {field: 'borrowDate', width: 150, title: '借书日期'},
+            ] ],
+            limits: [10, 20],
+            limit: 15,
+            page: true,
+            skin: 'line'
+        });
+
+        $("#refresh").click(function () {
+            table.reload('currentTableId'), {
+                url: '/getOutUsers',
+            }
+        })
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "/admin/main"
+  },
+  "logoInfo": {
+    "title": "管理员页面",
+    "image": "/images/logo.png",
+    "href": "/admin/main"
+  },
+  "menuInfo": [
+    {
+      "title": "欢迎使用",
+      "icon": "fa fa-slideshare",
+      "href": "/admin/main",
+      "target": "_self",
+      "child": [
+        {
+          "title": "管理员须知",
+          "href": "/admin/main",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "管理书库书籍",
+          "href": "/admin/books",
+          "icon": "fa fa-address-book",
+          "target": "_self"
+        },
+        {
+          "title": "管理用户信息",
+          "href": "/admin/users",
+          "icon": "fa fa-file-text",
+          "target": "_self"
+        },
+        {
+          "title": "查看逾期情况",
+          "href": "/admin/getOutUsers",
+          "icon": "fa fa-home",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

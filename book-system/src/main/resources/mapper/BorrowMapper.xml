@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.booksystem.mapper.BorrowMapper">
+
+    <select id="getSurplus" resultType="int">
+        select b_surplus from book where b_id=#{id};
+    </select>
+
+    <select id="getBorrow" resultType="Borrow">
+        select * from borrow
+        where user_id=#{userId} and book_id=#{bookId}
+    </select>
+
+    <select id="getAllBorrow" resultType="Borrow">
+        select * from borrow
+        <where>
+            <if test="userId!=null">and user_id = #{userId}</if>
+            <if test="bookId!=null">and book_id = #{bookId}</if>
+        </where>
+    </select>
+
+    <update id="surplusMinus">
+        update book
+        set b_surplus=#{bSurplus}
+        where b_id=#{bId};
+    </update>
+
+    <insert id="addBorrow">
+        insert into borrow(user_id, user_name, book_id, book_name, borrow_date)
+        values(#{userId}, #{userName}, #{bookId}, #{bookName}, #{borrowDate});
+    </insert>
+
+    <delete id="deleteBorrow">
+        delete from borrow where user_id=#{userId} and book_id=#{bookId};
+    </delete>
+
+</mapper>

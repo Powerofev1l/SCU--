@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.booksystem.mapper.BookMapper">
+
+    <select id="queryById" resultType="Book">
+        select * from book where b_id=#{id};
+    </select>
+
+    <select id="queryBooks" resultType="com.example.booksystem.entity.Book">
+        <!-- 根据条件查询图书的所有信息 -->
+        SELECT *
+        from book
+        <where>
+            <if test="bId!=null"> and b_id = #{bId} </if>
+            <if test="bName!=null and bName.trim()!=''"> and b_name LIKE concat("%",#{bName},"%") </if>
+            <if test="bPublisher!=null and bPublisher.trim()!=''"> and b_publisher LIKE concat("%",#{bPublisher},"%") </if>
+            <if test="bAuthor!=null and bAuthor.trim()!=''"> and b_author LIKE concat("%",#{bAuthor},"%") </if>
+            <if test="bDigest!=null and bDigest.trim()!=''"> and b_digest LIKE concat("%",#{bDigest},"%") </if>
+        </where>
+    </select>
+
+    <select id="queryBooksByMap" resultType="com.example.booksystem.entity.Book">
+        <!-- 根据条件查询图书的所有信息 -->
+        SELECT *
+        from book
+        <where>
+            <if test="bId!=null"> and b_id = #{bId} </if>
+            <if test="bName!=null and bName.trim()!=''"> and b_name LIKE concat("%",#{bName},"%") </if>
+            <if test="bPublisher!=null and bPublisher.trim()!=''"> and b_publisher LIKE concat("%",#{bPublisher},"%") </if>
+            <if test="bAuthor!=null and bAuthor.trim()!=''"> and b_author LIKE concat("%",#{bAuthor},"%") </if>
+            <if test="bDigest!=null and bDigest.trim()!=''"> and b_digest LIKE concat("%",#{bDigest},"%") </if>
+        </where>
+        limit #{start}, #{limit};
+    </select>
+
+    <select id="selectCount" resultType="int">
+        SELECT count(*)
+        from book
+        <where>
+            <if test="bId!=null"> and b_id = #{bId} </if>
+            <if test="bName!=null and bName.trim()!=''"> and b_name LIKE concat("%",#{bName},"%") </if>
+            <if test="bPublisher!=null and bPublisher.trim()!=''"> and b_publisher LIKE concat("%",#{bPublisher},"%") </if>
+            <if test="bAuthor!=null and bAuthor.trim()!=''"> and b_author LIKE concat("%",#{bAuthor},"%") </if>
+            <if test="bDigest!=null and bDigest.trim()!=''"> and b_digest LIKE concat("%",#{bDigest},"%") </if>
+        </where>
+    </select>
+
+    <insert id="saveBook">
+        insert into book(b_name, b_publisher, b_pubdate, b_author, b_digest, b_sum, b_surplus)
+        values(#{bName}, #{bPublisher}, #{bPubdate}, #{bAuthor}, #{bDigest}, #{bSum}, #{bSurplus});
+    </insert>
+
+    <update id="editBook">
+        update book
+            <set>
+                <if test="bName!=null and bName.trim()!=''"> b_name = #{bName}, </if>
+                <if test="bPublisher!=null and bPublisher.trim()!=''"> b_publisher = #{bPublisher}, </if>
+                <if test="bAuthor!=null and bAuthor.trim()!=''"> b_author = #{bAuthor}, </if>
+                <if test="bDigest!=null and bDigest.trim()!=''"> b_digest = #{bDigest}, </if>
+                <if test="bSurplus!=null"> b_surplus = #{bSurplus}, </if>
+            </set>
+        where b_id = #{bId}
+    </update>
+
+    <delete id="deleteBook">
+        delete from book where b_id = #{id};
+    </delete>
+</mapper>

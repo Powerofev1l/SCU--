@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.booksystem.mapper.UserMapper">
+
+    <select id="checkUser" parameterType="User" resultType="User">
+        select * from user where u_name = #{uName} and u_password = #{uPassword}
+    </select>
+
+    <update id="editPasswordByUser" parameterType="User">
+        update user set u_password = #{uPassword} where u_id = #{uId}
+    </update>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from user
+        <where>
+            <if test="uId!=null"> and u_id = #{uId}</if>
+            <if test="uName!=null and uName.trim()!=''"> and u_name LIKE concat("%",#{uName}, "%")</if>
+            <if test="uGender!=null and uGender.trim()!=''"> and u_gender = #{uGender}</if>
+            <if test="uDepartment!=null and uDepartment.trim()!=''"> and u_Department LIKE concat("%",#{uDepartment}, "%")</if>
+            <if test="uGrade!=null"> and u_grade = #{uGrade}</if>
+        </where>
+    </select>
+
+    <select id="selectUsers" resultType="User">
+        select * from user
+        <where>
+            <if test="uId!=null"> and u_id = #{uId}</if>
+            <if test="uName!=null and uName.trim()!=''"> and u_name LIKE concat("%",#{uName}, "%")</if>
+            <if test="uGender!=null and uGender.trim()!=''"> and u_gender = #{uGender}</if>
+            <if test="uDepartment!=null and uDepartment.trim()!=''"> and u_Department LIKE concat("%",#{uDepartment}, "%")</if>
+            <if test="uGrade!=null"> and u_grade = #{uGrade}</if>
+        </where>
+    </select>
+
+    <select id="selectUsersByMaps" parameterType="User" resultType="User">
+        select * from user
+        <where>
+            <if test="uId!=null"> and u_id = #{uId}</if>
+            <if test="uName!=null and uName.trim()!=''"> and u_name LIKE concat("%",#{uName}, "%")</if>
+            <if test="uGender!=null and uGender.trim()!=''"> and u_gender = #{uGender}</if>
+            <if test="uDepartment!=null and uDepartment.trim()!=''"> and u_Department LIKE concat("%",#{uDepartment}, "%")</if>
+            <if test="uGrade!=null"> and u_grade = #{uGrade}</if>
+        </where>
+        limit #{start}, #{limit};
+    </select>
+
+    <insert id="saveUser">
+        insert into user(u_name, u_password, u_gender, u_department, u_grade)
+        values(#{uName}, #{uPassword}, #{uGender}, #{uDepartment}, #{uGrade});
+    </insert>
+
+    <update id="editUser">
+        update user
+        <set>
+            <if test="uName!=null and uName.trim()!=''"> u_name = #{uName},</if>
+            <if test="uGender!=null and uGender.trim()!=''"> u_gender = #{uGender},</if>
+            <if test="uDepartment!=null and uDepartment.trim()!=''"> u_Department = #{uDepartment},</if>
+            <if test="uGrade!=null"> u_grade = #{uGrade}</if>
+        </set>
+        where u_id = #{uId};
+    </update>
+
+    <delete id="deleteUser">
+        delete from user
+        where u_id=#{id}
+    </delete>
+
+</mapper>

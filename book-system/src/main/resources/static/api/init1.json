@@ -1,0 +1,39 @@
+{
+    "homeInfo": {
+      "title": "首页",
+      "href": "/user/main"
+    },
+    "logoInfo": {
+      "title": "用户页面",
+      "image": "/images/logo.png",
+      "href": "/user/main"
+    },
+    "menuInfo": [
+      {
+        "title": "欢迎使用",
+        "icon": "fa fa-slideshare",
+        "href": "/user/main",
+        "target": "_self",
+        "child": [
+          {
+            "title": "用户须知",
+            "href": "/user/main",
+            "icon": "fa fa-superpowers",
+            "target": "_self"
+          },
+          {
+            "title": "借阅书库书籍",
+            "href": "/user/getBooks",
+            "icon": "fa fa-address-book",
+            "target": "_self"
+          },
+          {
+            "title": "查看借阅情况",
+            "href": "/user/getBorrows",
+            "icon": "fa fa-navicon",
+            "target": "_self"
+          }
+        ]
+      }
+    ]
+  }
