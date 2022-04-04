@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+        div {
+            word-wrap:break-word;
+            border: 1px solid;
+            border-color: #87CEFA;
+            overflow: Scroll;
+            overflow-x:hidden;
+            overflow-y:auto;
+        }
+    </style>
+</head>
+<body>
+
+<div style="overflow:hidden; border: 0px;height: 1400px; width: 1450px; position: relative;">
+    <div id="yuanzi" style="width: 550px; height: 50px;position: absolute; left: 5%; top: 5%;">原字:</div>
+    <div id="location" style="width: 550px; height: 50px; position: absolute; left: 45%; top: 5%;">所在位置:</div>
+
+
+
+
+    <div id="yinyong" style="width: 550px; height: 100px; position: absolute; left: 5%; top: 25%;">
+        说文:<br>
+    </div>
+    <div id="yinyongedit" class="edit" style="width:550px; height: 100px; position: absolute; left: 45%; top: 25%;">
+        说文修订:<br>
+    </div>
+
+
+
+
+
+    <div id="zixing" style="width: 550px; height: 200px; position: absolute; left: 5%; top: 45%;">
+        字形：<br><img id="imgzixing" src="">
+    </div>
+    <div  id="zixingedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 45%;">
+        字形修订:<br><img id="xingding" src="">
+    </div>
+
+    <div id="ziyin" style="width: 550px; height: 200px; position: absolute; left: 5%; top: 65%;">
+        字音:<br>
+    </div>
+
+    <div  id="ziyinedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 65%;">
+        字音修订:<br>
+    </div>
+
+    <div id="ziyi" style="width: 550px; height: 200px; position:absolute; left: 5%; top: 85%;">
+        字义：<br>
+    </div>
+
+    <div  id="ziyiedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 85%;">
+        字义修订:<br>
+    </div>
+
+</div>
+<input type="hidden" class="id" th:value="${ID}">
+
+<script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
+<script>
+    layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
+
+        var $ = layui.jquery,
+            layer = layui.layer,
+            miniAdmin = layui.miniAdmin,
+            miniTongji = layui.miniTongji;
+        var uri = $('.id').val();
+        console.log(uri);
+        var url = '/getZiById?ID=' + uri;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            timeout: 1000,
+            cache: false,
+            error: erryFunction,  //错误执行方法
+            success: succFunction //成功执行方法
+        })
+
+        function erryFunction() {
+            alert("error");
+        }
+        function succFunction(data) {
+                //循环获取数据
+            $("#yuanzi").append(data.zi);
+            $("#location").append(data.weizhi);
+            $("#yinyong").append(data.shuowen);
+            $("#yinyongedit").append(data.wending);
+            $("#imgzixing").attr("src", '/getPicById?ID=' + uri);
+            $("#xingding").attr("src", '/getPicsById?ID=' + uri);
+            $("#ziyin").append(data.yin);
+            $("#ziyinedit").append(data.yinding);
+            $("#ziyi").append(data.yi);
+            $("#ziyiedit").append(data.yiding);
+        }
+    });
+</script>
+
+<!--<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>-->
+<!--<script type="text/javascript">-->
+<!--    $(function () {-->
+<!--        var url = '/getZiById?ID=2';-->
+<!--        $.ajax({-->
+<!--            url: url,-->
+<!--            type: 'GET',-->
+<!--            dataType: 'json',-->
+<!--            timeout: 1000,-->
+<!--            cache: false,-->
+<!--            error: erryFunction,  //错误执行方法-->
+<!--            success: succFunction //成功执行方法-->
+<!--        })-->
+
+<!--        function erryFunction() {-->
+<!--            alert("error");-->
+<!--        }-->
+<!--        function succFunction(data) {-->
+<!--            $.each(data, function(index,item) {-->
+<!--                console.log(data);-->
+<!--                //循环获取数据-->
+<!--                $("#yuanzi").append(data.zi);-->
+<!--                $("#location").append(data.weizhi);-->
+<!--                $("#yinyong").append(data.shuowen);-->
+<!--                $("#yinyongedit").append(data.wending);-->
+<!--                $("#imgzixing").attr("src",data.zixing);-->
+<!--                $("#zixingedit").append(data.xingding);-->
+<!--                $("#ziyin").append(data.yin);-->
+<!--                $("#ziyinedit").append(data.yinding);-->
+<!--                $("#ziyi").append(data.yi);-->
+<!--                $("#ziyiedit").append(data.yiding);-->
+<!--            });-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+</body>
+</html>
