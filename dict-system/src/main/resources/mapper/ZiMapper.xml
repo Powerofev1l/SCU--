@@ -33,7 +33,7 @@
     </select>
 
     <update id="appendXiuDing">
-        update Zi
+        update zi
         <set>
             <if test="wending!=null and wending.trim()!=''"> wending = #{wending}, </if>
             <if test="yinding!=null and yinding.trim()!=''"> yinding = #{yinding}, </if>
@@ -43,7 +43,7 @@
     </update>
 
     <insert id="appendZi">
-        insert into Zi(zi, weizhi, shuowen, yin, yi, zixing)
+        insert into zi(zi, weizhi, shuowen, yin, yi, zixing)
         values (#{zi}, #{weizhi}, #{shuowen}, #{yin}, #{yi}, #{zixing});
     </insert>
 

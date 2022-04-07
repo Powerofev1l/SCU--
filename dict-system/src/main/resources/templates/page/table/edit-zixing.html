@@ -32,7 +32,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">用户名</label>
         <div class="layui-input-block">
-            <input type="text" readonly name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <input id="xing1" type="text" readonly name="username" lay-verify="required" th:value="${user}" class="layui-input">
         </div>
     </div>
 
@@ -78,11 +78,22 @@
             ,element = layui.element
             ,layer = layui.layer;
 
-        console.log($('#xing').val());
+        var xing;
+        $(function(){
+            //输入框的值改变时触发
+            $("#xing").on("input",function(e){
+                //获取input输入的值
+                console.log(e.delegateTarget.value);
+                xing = e.delegateTarget.value;
+                xing += ''
+            });
+        });
+
         //常规使用 - 普通图片上传
         var uploadInst = upload.render({
+            type: 'get',
             elem: '#test1',
-            url: '/updateXingPhoto?ID=' + $('#cur').val() + '&xing=' + $('#xing').val(), //此处用的是第三方的 http 请求演示，实际使用时改成自己的上传接口。
+            url: '/updateXingPhoto?ID=' + $('#cur').val() + '&xing=' + $("#xing").val(), //此处用的是第三方的 http 请求演示，实际使用时改成自己的上传接口。
             before: function(obj){
                 //预读本地文件示例，不支持ie8
                 obj.preview(function(index, file, result){

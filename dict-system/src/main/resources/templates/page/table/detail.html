@@ -11,6 +11,7 @@
             background-color: #ffffff;
         }
         div {
+            border-radius: 5px;
             word-wrap:break-word;
             border: 1px solid;
             border-color: #87CEFA;
@@ -22,55 +23,50 @@
 </head>
 <body>
 
-<div style="overflow:hidden; border: 0px;height: 1400px; width: 1450px; position: relative;">
-    <div id="yuanzi" style="width: 550px; height: 50px;position: absolute; left: 5%; top: 5%;">原字:</div>
-    <div id="location" style="width: 550px; height: 50px; position: absolute; left: 45%; top: 5%;">所在位置:</div>
+<div style="overflow:hidden; border: 0px;height: 1300px; width: 1450px; position: relative;">
+
+    <div id="yuanzi" style="width: 400px; height: 200px;position: absolute; left: 5%; top: 5%;font-weight:300;font-size: 120px;border: 0px"></div>
+    <span style="position: absolute; left: 16%; top: 12%;">所在位置</span><div id="location" style="width: 550px; height: 50px; position: absolute; left: 21%; top: 12%;">所在位置:</div>
 
 
+    <div id="yinyong" style="width: 650px; height: 100px; position: absolute; left: 5%; top: 19%;">
 
-
-    <div id="yinyong" style="width: 550px; height: 100px; position: absolute; left: 5%; top: 25%;">
-        说文:<br>
     </div>
-    <div id="yinyongedit" class="edit" style="width:550px; height: 100px; position: absolute; left: 45%; top: 25%;">
+    <div id="yinyongedit" class="edit" style="border-color: #b0929f;text-indent:1em;width:400px; height: 100px; position: absolute; left: 55%; top: 19%;">
         说文修订:<br>
     </div>
 
 
-
-
-
-    <div id="zixing" style="width: 550px; height: 200px; position: absolute; left: 5%; top: 45%;">
-        字形：<br><img id="imgzixing" src="">
-    </div>
-    <div  id="zixingedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 45%;">
+    <span style="position: absolute; left: 5%; top: 29%;">字形:</span><div id="zixing" style="width: 600px; height: 200px; position: absolute; left: 8%; top: 29%;">
+    <br><img id="imgzixing" src="">
+    <br><img id="imgzixing1" src="">
+</div>
+    <div  id="zixingedit" class="edit" style="border-color: #b0929f;text-indent:1em;width: 400px; height: 200px; position: absolute; left: 55%; top: 29%;">
         字形修订:<br><img id="xingding" src="">
     </div>
 
-    <div id="ziyin" style="width: 550px; height: 200px; position: absolute; left: 5%; top: 65%;">
-        字音:<br>
-    </div>
+    <span style="position: absolute; left: 5%; top: 47%;">字音:</span><div id="ziyin" style="width: 600px; height: 100px; position: absolute; left: 8%; top: 47%;">
 
-    <div  id="ziyinedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 65%;">
+</div>
+
+    <div  id="ziyinedit" class="edit" style="border-color: #b0929f;text-indent:1em;width: 400px; height: 100px; position: absolute; left: 55%; top: 47%;">
         字音修订:<br>
     </div>
 
-    <div id="ziyi" style="width: 550px; height: 200px; position:absolute; left: 5%; top: 85%;">
-        字义：<br>
-    </div>
+    <span style="position: absolute; left: 5%; top: 58%;">字义:</span><div id="ziyi" style="width: 600px; height: 500px; position:absolute; left: 8%; top: 58%;">
 
-    <div  id="ziyiedit" class="edit" style="width: 550px; height: 200px; position: absolute; left: 45%; top: 85%;">
+</div>
+
+    <div  id="ziyiedit" class="edit" style="border-color: #b0929f;text-indent:1em; width: 400px; height: 500px; position: absolute; left: 55%; top: 58%;">
         字义修订:<br>
     </div>
 
 </div>
 <input type="hidden" class="id" th:value="${ID}">
-
 <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
     layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
-
         var $ = layui.jquery,
             layer = layui.layer,
             miniAdmin = layui.miniAdmin,
@@ -92,13 +88,13 @@
             alert("error");
         }
         function succFunction(data) {
-                //循环获取数据
+            //循环获取数据
             $("#yuanzi").append(data.zi);
             $("#location").append(data.weizhi);
             $("#yinyong").append(data.shuowen);
             $("#yinyongedit").append(data.wending);
-            $("#imgzixing").attr("src", '/getPicById?ID=' + uri);
-            $("#xingding").attr("src", '/getPicsById?ID=' + uri);
+            $("#imgzixing").attr("src", '/getPicsById?ID=' + uri);
+            $("#xingding").attr("src", '');
             $("#ziyin").append(data.yin);
             $("#ziyinedit").append(data.yinding);
             $("#ziyi").append(data.yi);
