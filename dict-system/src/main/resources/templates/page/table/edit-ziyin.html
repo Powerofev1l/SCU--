@@ -33,27 +33,28 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">用户名</label>
+        <label class="layui-form-label required">修订者姓名</label>
         <div class="layui-input-block">
-            <input type="text" readonly name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <input type="text" name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <div>请输入修订者姓名(若此次修订为您根据他人的修订所输入)</div>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label ">古音描写</label>
         <div class="layui-input-block">
-            <input type="text" name="guyinmiaoxie"  placeholder="请输入古音描写" value="" class="layui-input">
+            <input type="text" name="guyinmiaoxie"  placeholder="请输入古音描写，注意标点符号的正确输入" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label ">出处</label>
         <div class="layui-input-block">
-            <input type="text" name="ziyinchuchu"  placeholder="请输入出处" value="" class="layui-input">
+            <input type="text" name="ziyinchuchu"  placeholder="请输入出处，注意标点符号的正确输入" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label ">汉语拼音</label>
         <div class="layui-input-block">
-            <input type="text" name="hanyupinyin"  placeholder="请输入汉语拼音" value="" class="layui-input">
+            <input type="text" name="hanyupinyin" placeholder="请输入汉语拼音，注意同时输入带声母与不带声母的拼音以空格间隔(eg:ào ao)" value="" class="layui-input">
         </div>
     </div>
 

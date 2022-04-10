@@ -22,10 +22,4 @@ public interface ZiService {
     Zi getZiById(int id);
 
     boolean addZi(Zi zi);
-
-    boolean addPhoto(int id, byte[] bytes);
-
-    boolean insertZiXing(int id, byte[] bytes, String miaoshu);
-
-    DataVO<ZiXing> searchZiXing(int id);
 }

@@ -10,4 +10,6 @@ public interface ZiXingMapper {
     List<ZiXing> queryZiXingById(int ID);
 
     int insertZiXing(int ID, byte[] zixing, String miaoshu);
+
+    int queryZiXingNum(int ID);
 }

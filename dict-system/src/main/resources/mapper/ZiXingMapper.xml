@@ -9,4 +9,8 @@
     <select id="queryZiXingById" resultType="ZiXing">
         select * from zixing where ID = #{ID}
     </select>
+
+    <select id="queryZiXingNum" resultType="int">
+        select count(*) from zixing where ID = #{ID}
+    </select>
 </mapper>

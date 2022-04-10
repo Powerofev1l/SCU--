@@ -1,8 +1,11 @@
 package com.example.dictsystem.controller;
 
 import com.example.dictsystem.dao.ZiMapper;
+import com.example.dictsystem.entity.Admin;
 import com.example.dictsystem.entity.Zi;
+import com.example.dictsystem.service.AdminService;
 import com.example.dictsystem.service.ZiService;
+import com.example.dictsystem.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 存储管理员有关操作，权限操作
@@ -22,10 +27,8 @@ public class AdminController {
     @Autowired
     private ZiService ziService;
 
-    @GetMapping("/getAdmin")
-    public String getAdmin() {
-        return "index2";
-    }
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/getAdd")
     public String getAdd() {
@@ -43,30 +46,34 @@ public class AdminController {
     }
 
     @GetMapping("/editZiYinPage")
-    public String getEditZiYin(Model model, Integer ID, String user) {
+    public String getEditZiYin(Model model, Integer ID, HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("ADMIN");
         model.addAttribute("ID", ID);
-        model.addAttribute("user", user);
+        model.addAttribute("user", admin.getName());
         return "page/table/edit-ziyin";
     }
 
     @GetMapping("/editZiYiPage")
-    public String getEditZiYi(Model model, Integer ID, String user) {
+    public String getEditZiYi(Model model, Integer ID, HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("ADMIN");
         model.addAttribute("ID", ID);
-        model.addAttribute("user", user);
+        model.addAttribute("user", admin.getName());
         return "page/table/edit-ziyi";
     }
 
     @GetMapping("/editZiXingPage")
-    public String getEditZiXing(Model model, Integer ID, String user) {
+    public String getEditZiXing(Model model, Integer ID, HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("ADMIN");
         model.addAttribute("ID", ID);
-        model.addAttribute("user", user);
+        model.addAttribute("user", admin.getName());
         return "page/table/edit-zixing";
     }
 
     @GetMapping("/editShuowenPage")
-    public String getEditShuowen(Model model, Integer ID, String user) {
+    public String getEditShuowen(Model model, Integer ID, HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("ADMIN");
         model.addAttribute("ID", ID);
-        model.addAttribute("user", user);
+        model.addAttribute("user", admin.getName());
         return "page/table/edit-shuowen";
     }
 

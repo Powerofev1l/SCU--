@@ -38,8 +38,16 @@
 
 
     <span style="position: absolute; left: 5%; top: 29%;">字形:</span><div id="zixing" style="width: 600px; height: 200px; position: absolute; left: 8%; top: 29%;">
-    <br><img id="imgzixing" src="">
+    <br><img id="imgzixing0" src="">
     <br><img id="imgzixing1" src="">
+    <br><img id="imgzixing2" src="">
+    <br><img id="imgzixing3" src="">
+    <br><img id="imgzixing4" src="">
+    <br><img id="imgzixing5" src="">
+    <br><img id="imgzixing6" src="">
+    <br><img id="imgzixing7" src="">
+    <br><img id="imgzixing8" src="">
+    <br><img id="imgzixing9" src="">
 </div>
     <div  id="zixingedit" class="edit" style="border-color: #b0929f;text-indent:1em;width: 400px; height: 200px; position: absolute; left: 55%; top: 29%;">
         字形修订:<br><img id="xingding" src="">
@@ -63,6 +71,7 @@
 
 </div>
 <input type="hidden" class="id" th:value="${ID}">
+<input type="hidden" class="count" th:value="${n}">
 <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
@@ -71,7 +80,7 @@
             layer = layui.layer,
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
-        var uri = $('.id').val();
+        var uri = $('.id').val(), n = $('.count').val();
         console.log(uri);
         var url = '/getZiById?ID=' + uri;
         $.ajax({
@@ -88,12 +97,23 @@
             alert("error");
         }
         function succFunction(data) {
-            //循环获取数据
             $("#yuanzi").append(data.zi);
             $("#location").append(data.weizhi);
             $("#yinyong").append(data.shuowen);
             $("#yinyongedit").append(data.wending);
-            $("#imgzixing").attr("src", '/getPicsById?ID=' + uri);
+            for (var i = 0; i < n; i++) {
+                $("#imgzixing" + i).attr("src", '/getPicsById?n=' + i + '&ID=' + uri);
+            }
+            // $("#imgzixing0").attr("src", '/getPicsById?n=0&ID=' + uri);
+            // $("#imgzixing1").attr("src", '/getPicsById?n=1&ID=' + uri);
+            // $("#imgzixing2").attr("src", '/getPicsById?n=2&ID=' + uri);
+            // $("#imgzixing3").attr("src", '/getPicsById?n=3&ID=' + uri);
+            // $("#imgzixing4").attr("src", '/getPicsById?n=4&ID=' + uri);
+            // $("#imgzixing5").attr("src", '/getPicsById?n=5&ID=' + uri);
+            // $("#imgzixing6").attr("src", '/getPicsById?n=6&ID=' + uri);
+            // $("#imgzixing7").attr("src", '/getPicsById?n=7&ID=' + uri);
+            // $("#imgzixing8").attr("src", '/getPicsById?n=8&ID=' + uri);
+            // $("#imgzixing9").attr("src", '');
             $("#xingding").attr("src", '');
             $("#ziyin").append(data.yin);
             $("#ziyinedit").append(data.yinding);

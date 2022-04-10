@@ -29,15 +29,16 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">用户名</label>
+        <label class="layui-form-label required">修改者姓名</label>
         <div class="layui-input-block">
-            <input type="text" readonly name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <input type="text" name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <div>请输入修订者姓名(若此次修订为您根据他人的修订所输入)</div>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label ">说文修订</label>
         <div class="layui-input-block">
-            <input type="text" name="shuowen" placeholder="请输入修订内容" value="" class="layui-input">
+            <input type="text" name="shuowen" placeholder="请输入修订内容,注意标点符号的正确输入" value="" class="layui-input">
         </div>
     </div>
 

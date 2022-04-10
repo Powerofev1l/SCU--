@@ -8,6 +8,8 @@ public class DataVO <T> {
     private Integer count;
     private List<T> data;
 
+    public DataVO(){}
+
     public DataVO(Integer code, String msg, Integer count, List<T> data) {
         this.code = code;
         this.msg = msg;

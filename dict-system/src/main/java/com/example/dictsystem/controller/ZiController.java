@@ -5,6 +5,7 @@ import com.example.dictsystem.entity.Zi;
 import com.example.dictsystem.entity.ZiPre;
 import com.example.dictsystem.entity.ZiXing;
 import com.example.dictsystem.service.ZiService;
+import com.example.dictsystem.service.ZiXingService;
 import com.example.dictsystem.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,30 +31,19 @@ public class ZiController {
     @Autowired
     private ZiService ziService;
 
-    @ResponseBody
-    @RequestMapping("/updatePhoto")
-    public Object test(MultipartFile file, int ID){
-        int i = 1;
-        try {
-            boolean jud = ziService.addPhoto(ID, file.getBytes());
-            i = jud ? 0 : 1; //返回1代表上传未成功
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new DataVO<>(i, "", 0, null);
-    }
+    @Autowired
+    private ZiXingService ziXingService;
 
     @ResponseBody
     @RequestMapping("/updateXingPhoto")
-    public Object testXing(MultipartFile file, int ID, String xing){
+    public DataVO testXing(MultipartFile file, int ID, String xing){
         int i = 1;
         try {
-            boolean jud = ziService.insertZiXing(ID, file.getBytes(), xing);
-            i = jud ? 0 : 1; //返回1代表上传未成功
+            return ziXingService.insertXing(ID, file.getBytes(), xing);
         } catch (IOException e) {
             e.printStackTrace();
+            return new DataVO(1, "", 0, null);
         }
-        return new DataVO<>(i, "", 0, null);
     }
 
     @ResponseBody
@@ -66,17 +56,6 @@ public class ZiController {
     @RequestMapping("/getZiById")
     public Zi getZiById(int ID) {
         Zi zi = ziService.getZiById(ID);
-//        byte[] zixing = zi.getZixing();
-//        try {
-//            ServletOutputStream sos = response.getOutputStream();
-//            sos.write(zixing, 0, zixing.length);
-//            sos.flush();
-//            sos.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//        response.setContentType("image/*");
         return zi;
     }
 
@@ -104,18 +83,20 @@ public class ZiController {
     }
 
     @RequestMapping("/getPicsById")
-    public void getPicsById(int ID, HttpServletResponse response) {
-        final DataVO<ZiXing> ziXingDataVO = ziService.searchZiXing(ID);
+    public void getPicsById(int n, int ID, HttpServletResponse response) {
+        final DataVO<ZiXing> ziXingDataVO = ziXingService.getZiXings(ID);
         if (ziXingDataVO.getData() == null || ziXingDataVO.getData().size() == 0) {
+            return;
+        }
+        final List<ZiXing> data = ziXingDataVO.getData();
+        if (n >= data.size()) {
             return;
         }
         byte[] zixing;
         try {
             ServletOutputStream sos = response.getOutputStream();
-            for (int i = 0; i < ziXingDataVO.getData().size(); i++) {
-                zixing = ziXingDataVO.getData().get(i).getZixing();
-                sos.write(zixing);
-            }
+            zixing = data.get(n).getZixing();
+            sos.write(zixing);
             sos.flush();
             sos.close();
         } catch (IOException e) {

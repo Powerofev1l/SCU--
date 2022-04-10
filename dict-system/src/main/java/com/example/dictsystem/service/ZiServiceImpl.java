@@ -30,7 +30,7 @@ public class ZiServiceImpl implements ZiService{
         if (len > 3 && zi.getYinding().charAt(len - 1) != '>') {
             sb.append("<br>");
         }
-        sb.append(username + "做出修正：" + hanyupinyin + "，" + ziyinchuchu + "，" + guyinmiaoxie + "。" + "<br>");
+        sb.append("·用户" + username + "做出修正：" + hanyupinyin + ziyinchuchu + guyinmiaoxie + "<br>");
         zi.setYinding(zi.getYinding() + sb);
         zi.setYiding(null);
         zi.setWending(null);
@@ -53,7 +53,7 @@ public class ZiServiceImpl implements ZiService{
         if (len > 3 && zi.getYiding().charAt(len - 1) != '>') {
             sb.append("<br>");
         }
-        sb.append(username + "根据原文内容: “" + yuanwenneirong + "” 做出修订: " + xiudingneirong + "。" + "<br>");
+        sb.append("·用户" + username + "根据原文内容: “" + yuanwenneirong + "” 做出修订: " + xiudingneirong + "<br>");
         zi.setYiding(zi.getYiding() + sb);
         zi.setYinding(null);
         zi.setWending(null);
@@ -71,7 +71,7 @@ public class ZiServiceImpl implements ZiService{
         if (len > 3 && zi.getWending().charAt(len - 1) != '>') {
             sb.append("<br>");
         }
-        sb.append(username + "做出修正：" + shuowen + "。<br>");
+        sb.append("·用户" + username + "做出修正：" + shuowen + "<br>");
         zi.setYinding(null);
         zi.setYiding(null);
         zi.setWending(zi.getWending() + sb);
@@ -106,22 +106,4 @@ public class ZiServiceImpl implements ZiService{
         }
         return ziMapper.appendZi(zi) != 0;
     }
-
-    @Override
-    public boolean addPhoto(int id, byte[] bytes) {
-        return ziMapper.editPic(id, bytes) != 0;
-    }
-
-    @Override
-    public boolean insertZiXing(int id, byte[] bytes, String miaoshu) {
-        return ziXingMapper.insertZiXing(id, bytes, miaoshu) != 0;
-    }
-
-    @Override
-    public DataVO<ZiXing> searchZiXing(int id) {
-        final List<ZiXing> ziXings = ziXingMapper.queryZiXingById(id);
-        return new DataVO<>(0, "", ziXings.size(), ziXings);
-    }
-
-
 }

@@ -37,4 +37,9 @@ class DictSystemApplicationTests {
     @Autowired
     ZiController ziController;
 
+    @Test
+    void test() {
+        System.out.println(ziXingMapper.queryZiXingNum(1));
+    }
+
 }

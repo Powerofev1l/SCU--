@@ -127,6 +127,7 @@
 
     </div>
 </div>
+<input type="hidden" class="info" th:value="${session.TYPE}">
 <script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
@@ -136,8 +137,14 @@
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
 
+        var i = $('.info').val() == 'admin' ? 2 : '';
+        var url = "api/init" + i + ".json";
+        console.log(i);
+        console.log($('.info').val());
+        console.log(url);
+
         var options = {
-            iniUrl: "api/init.json",    // 初始化接口
+            iniUrl: url,    // 初始化接口
             clearUrl: "api/clear.json", // 缓存清理接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置
