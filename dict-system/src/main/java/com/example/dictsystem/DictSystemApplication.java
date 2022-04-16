@@ -10,6 +10,7 @@ public class DictSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DictSystemApplication.class, args);
+
     }
 
 }
