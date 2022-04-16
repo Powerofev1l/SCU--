@@ -11,6 +11,10 @@ spring:
     suffix: .html
     cache: false #禁用缓存
     encoding: UTF-8
+  web:
+    resources:
+      static-locations: classpath:static/, file:static/
+
 
 server:
   servlet:

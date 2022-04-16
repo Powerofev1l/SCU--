@@ -4,6 +4,7 @@ import com.example.dictsystem.dao.ZiMapper;
 import com.example.dictsystem.entity.Admin;
 import com.example.dictsystem.entity.Zi;
 import com.example.dictsystem.service.AdminService;
+import com.example.dictsystem.service.XingService;
 import com.example.dictsystem.service.ZiService;
 import com.example.dictsystem.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AdminController {
     private ZiService ziService;
 
     @Autowired
-    private AdminService adminService;
+    private XingService xingService;
 
     @GetMapping("/getAdd")
     public String getAdd() {
@@ -97,8 +98,12 @@ public class AdminController {
     //ZiXing仍待完善
     @PostMapping("/editZiXing")
     @ResponseBody
-    public boolean editZiXing(MultipartFile file, Integer ID, String username, String xing) {
-        return ziService.editZiXing(ID, username, null, xing);
+    public boolean editZiXing(Integer ID, String username, String zixingchuchu, String dir) {
+        if (dir.charAt(dir.length()-1) == ',') {  //?为什么末尾会有,？
+            dir = dir.substring(0, dir.length() - 1);
+        }
+        final DataVO dataVO = xingService.insertXing(ID, dir, zixingchuchu);
+        return dataVO.getCode() == 0;
     }
 
     @PostMapping("/editShuoWen")

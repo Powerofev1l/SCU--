@@ -40,23 +40,19 @@
   <span style="position: absolute; left: 5%; top: 19.5%;">说文：</span>
   <div id="yinyong" style="line-height:30px;width: 600px; height: 100px; position: absolute; left: 8%; top: 19%;"></div>
   <button onclick="button1()" class="layui-btn layui-btn-normal layui-btn-xs " style="background-color:Brown;width:50px;height:30px;position: absolute; left: 52%; top: 19.5%;">修订</button>
-  <div id="yinyongedit" class="edit" style="line-height:30px;border-color: grey;text-indent:1em;width:400px; height: 100px; position: absolute; left: 56.5%; top: 19%;"></div>
+  <div id="yinyongedit" class="edit" style="line-height:30px;border-color: grey;width:400px; height: 100px; position: absolute; left: 56.5%; top: 19%;"></div>
 
 
   <span style="position: absolute; left: 5%; top: 29.5%;">字形:</span>
   <div id="zixing" style="width: 600px; height: 200px; position: absolute; left: 8%; top: 29%;">
     <img id="imgzixing0" src=""><img id="imgzixing1" src=""><img id="imgzixing2" src=""><img id="imgzixing3" src="">
     <img id="imgzixing4" src=""><img id="imgzixing5" src=""><img id="imgzixing6" src=""><img id="imgzixing7" src="">
+    <img id="imgzixing8" src=""><img id="imgzixing9" src=""><img id="imgzixing10" src=""><img id="imgzixing11" src="">
+    <img id="imgzixing12" src=""><img id="imgzixing13" src=""><img id="imgzixing14" src=""><img id="imgzixing15" src="">
   </div>
 
   <button onclick="button2()" class="layui-btn layui-btn-normal layui-btn-xs " style="background-color:Brown;width:50px;height:30px;position: absolute; left: 52%; top: 29.5%;">修订</button>
-  <div  id="zixingedit" class="edit" style="border-color: grey;text-indent:1em;width: 400px; height: 200px; position: absolute; left: 56.5%; top: 29%;">
-    <img id="xingding1" src="">
-    <img id="xingding2" src="">
-    <img id="xingding3" src="">
-    <img id="xingding4" src="">
-    <img id="xingding5" src="">
-  </div>
+  <div id="zixingedit" class="edit" style="line-height:30px;border-color: grey;width:400px; height: 200px; position: absolute; left: 56.5%; top: 29%;"></div>
 
   <span style="position: absolute; left: 5%; top: 47.5%;">字音:</span>
   <div id="ziyin" style="line-height:30px;width: 600px; height: 100px; position: absolute; left: 8%; top: 47%;">
@@ -64,19 +60,19 @@
   </div>
 
   <button onclick="button3()" class="layui-btn layui-btn-normal layui-btn-xs " style="background-color:Brown;width:50px;height:30px;position: absolute; left: 52%; top: 47.5%;">修订</button>
-  <div  id="ziyinedit" class="edit" style="line-height:30px;border-color: grey;text-indent:1em;width: 400px; height: 100px; position: absolute; left: 56.5%; top: 47%;"></div>
+  <div  id="ziyinedit" class="edit" style="line-height:30px;border-color: grey;width: 400px; height: 100px; position: absolute; left: 56.5%; top: 47%;"></div>
 
   <span style="position: absolute; left: 5%; top: 58.5%;">字义:</span>
   <div id="ziyi" style="line-height:30px;width: 600px; height: 500px; position:absolute; left: 8%; top: 58%;"></div>
 
 
   <button  onclick="button4()" class="layui-btn layui-btn-normal layui-btn-xs " style="background-color:Brown;width:50px;height:30px;position: absolute; left: 52%; top: 58.5%;">修订</button>
-  <div  id="ziyiedit" class="edit" style="line-height:30px;border-color: grey;text-indent:1em; width: 400px; height: 500px; position: absolute; left: 56.5%; top: 58%;"></div>
+  <div  id="ziyiedit" class="edit" style="line-height:30px;border-color: grey; width: 400px; height: 500px; position: absolute; left: 56.5%; top: 58%;"></div>
 
 </div>
 <input type="hidden" class="id" th:value="${ID}">
 <input type="hidden" class="count" th:value="${n}">
-<input type="hidden" class="type"  th:value="${#session.getAttribute('TYPE')}">
+<input type="hidden" class="type" th:if="${session.ADMIN != null}" th:text="2">
 <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
@@ -84,10 +80,11 @@
             layer = layui.layer,
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
-    var uri = $('.id').val(), n = $('.count').val(), status = $('.type').val();
+    var uri = $('.id').val(), n = $('.count').val(), status = $('.type').val() != null ? 2 : 1;
+    console.log(status);
     layui.use(['jquery', 'layer', 'miniAdmin','miniTongji'], function () {
       console.log(uri);
-      var url = '/getZiById?ID=' + uri;
+      var url = '/getPicsUrl?ID=' + uri;
       $.ajax({
         url: url,
         type: 'GET',
@@ -102,56 +99,51 @@
       }
       function succFunction(data) {
         //循环获取数据
-        $("#yuanzi").append(data.zi);
-        $("#location").append(data.weizhi);
-        $("#yinyong").append(data.shuowen);
-        $("#yinyongedit").append(data.wending);
-        for (var i = 0; i < n; i++) {
-          $("#imgzixing" + i).attr("src", '/getPicsById?n=' + i + '&ID=' + uri);
+        $("#yuanzi").append(data.zi.zi);
+        $("#location").append(data.zi.weizhi);
+        $("#yinyong").append(data.zi.shuowen);
+        $("#yinyongedit").append(data.zi.wending);
+        let divA = document.getElementById("zixingedit");
+        for (let i = 0; i < data.count; i++) {
+          $("#imgzixing" + i).attr("src", 'images/' + data.zi.id + '/' + data.xings[i].url);
+          divA.innerHTML = divA.innerHTML+'·'+data.xings[i].miaoshu+'<br>';
         }
-        $("#imgzixing").attr("src", '/getPicsById?ID=' + uri);
-        $("#xingding").attr("src", '');
-        $("#ziyin").append(data.yin);
-        $("#ziyinedit").append(data.yinding);
-        $("#ziyi").append(data.yi);
-        $("#ziyiedit").append(data.yiding);
+        $("#xingding").attr("src", 'images/d575e1c1-ecae-4a4b-aaf0-5c4d2bcaf975.jpg');
+        $("#ziyin").append(data.zi.yin);
+        $("#ziyinedit").append(data.zi.yinding);
+        $("#ziyi").append(data.zi.yi);
+        $("#ziyiedit").append(data.zi.yiding);
       }
-      var status = $('.type').val();//动态a或者v
-      console.log(status);
       var button = document.getElementsByTagName("button");
-      if(status != 'admin'){
-        button.preventDefault();
-      }
     });
 
     function button1(){
       console.log(status);
-      if(status == 'admin'){
+      if(status == 2){
         window.location.href = "/admin/editShuowenPage?ID=" + uri;
-      }else{
-        alert("您不是管理员，无法修订！");
+      } else {
+        layer.msg("您不是管理员，无法修订！", {icon:2,time:2000, shift: 6});
       }
     }
     function button2(){
-      if(status == 'admin'){
+      if(status == 2){
         window.location.href = "/admin/editZiXingPage?ID=" + uri;
       }else{
-        alert("您不是管理员，无法修订！");
+        layer.msg("您不是管理员，无法修订！", {icon:2,time:2000, shift: 6});
       }
     }
     function button3(){
-      if(status == 'admin'){
+      if(status == 2){
         window.location.href = "/admin/editZiYinPage?ID=" + uri;
       }else{
-        alert("您不是管理员，无法修订！");
+        layer.msg("您不是管理员，无法修订！", {icon:2,time:2000, shift: 6});
       }
     }
-
     function button4(){
-      if(status == 'admin'){
+      if(status == 2){
         window.location.href = "/admin/editZiYiPage?ID=" + uri;
       }else{
-        alert("您不是管理员，无法修订！");
+        layer.msg("您不是管理员，无法修订！", {icon:2,time:2000, shift: 6});
       }
     }
 </script>

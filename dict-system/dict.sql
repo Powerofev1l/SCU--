@@ -38,16 +38,30 @@ CREATE TABLE `zi`  (
   PRIMARY KEY (`ID`) USING BTREE 
 ) ENGINE = INNODB CHARACTER SET GB18030 COLLATE = gb18030_chinese_ci ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Records of zixing (test use)
+-- ----------------------------
 DROP TABLE IF EXISTS `zixing`;
 CREATE TABLE `zixing` (
    `ID` INT NULL,
    `miaoshu` VARCHAR(255) CHARACTER SET GB18030 COLLATE gb18030_chinese_ci NULL,
    zixing BLOB NULL
 ) ENGINE = INNODB CHARACTER SET GB18030 COLLATE = gb18030_chinese_ci ROW_FORMAT = DYNAMIC;
--- ----------------------------
--- Records of zi
--- ----------------------------
 
+-- ----------------------------
+-- Records of xing
+-- ----------------------------
+DROP TABLE IF EXISTS `xing`;
+CREATE TABLE xing (
+   `ID` INT NOT NULL,
+   `url` VARCHAR(50) NOT NULL,
+   `miaoshu` VARCHAR(255)
+) ENGINE = INNODB CHARACTER SET GB18030 COLLATE = gb18030_chinese_ci ROW_FORMAT = DYNAMIC;
+
+
+-- ----------------------------
+-- Records of admin
+-- ----------------------------
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
    id CHAR(13),

@@ -16,7 +16,6 @@
 </head>
 <body>
 
-
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
     <legend>添加修订-字形</legend>
 </fieldset>
@@ -32,7 +31,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">添加者姓名</label>
         <div class="layui-input-block">
-            <input id="xing1" type="text" name="username" lay-verify="required" th:value="${user}" class="layui-input">
+            <input type="text" name="username" lay-verify="required" value="" class="layui-input">
         </div>
     </div>
 
@@ -43,7 +42,10 @@
         </div>
     </div>
 
-    <div style="text-indent: 7em;">字形图片:</div>
+    <div class="layui-form-item">
+        <input id="dir" type="hidden" name="dir">
+    </div>
+
     <br>
     <div class="layui-upload" style="margin-left: 7em;">
         <button type="button" class="layui-btn" id="test1">上传本地字形图片</button>
@@ -51,6 +53,7 @@
         <div class="layui-upload-list">
             <img class="layui-upload-img" id="demo1">
             <p id="demoText"></p>
+            <input id="pt" name="dirname" type="hidden"/>
         </div>
         <div style="width: 95px;">
             <div class="layui-progress layui-progress-big" lay-showpercent="yes" lay-filter="demo">
@@ -61,53 +64,49 @@
 
     <a name="list-progress"> </a>
 
+    <br><br>
     <div style="margin-top: 10px;"/>
 
-<!--        <div class="layui-form-item">-->
-<!--            <div class="layui-input-block">-->
-<!--                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>-->
-<!--            </div>-->
-<!--        </div>-->
-</div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
 
+                <br>
+                <div style="color: red"><b>若您保存前添加了多个字形图片，则这次保存只会保存最近一次添加的字形图片;</b>
+                <br><b>未添加图片的情况下无法进行保存操作.</b></div>
+            </div>
+        </div>
+</div>
+<input type="hidden" id="test" class="layui-input">
 <script src="/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['upload', 'element', 'layer'], function(data){
+    var dirname;
+    layui.use(['upload', 'element', 'layer'], function(){
         var $ = layui.jquery
             ,upload = layui.upload
             ,element = layui.element
             ,layer = layui.layer;
 
-        var xing;
-        $(function(){
-            //输入框的值改变时触发
-            $("#xing").on("input",function(e){
-                //获取input输入的值
-                console.log(e.delegateTarget.value);
-                xing = e.delegateTarget.value;
-                xing += ''
-            });
-        });
-
         //常规使用 - 普通图片上传
         var uploadInst = upload.render({
             type: 'get',
             elem: '#test1',
-            url: '/updateXingPhoto?ID=' + $('#cur').val() + '&xing=' + $("#xing").val(), //此处用的是第三方的 http 请求演示，实际使用时改成自己的上传接口。
+            url: '/testPhoto?ID=' + $('#cur').val() + '&xing=' + $("#xing").val(), //此处用的是第三方的 http 请求演示，实际使用时改成自己的上传接口。
             before: function(obj){
                 //预读本地文件示例，不支持ie8
                 obj.preview(function(index, file, result){
                     $('#demo1').attr('src', result); //图片链接（base64）
                 });
-
                 element.progress('demo', '0%'); //进度条复位
                 layer.msg('上传中', {icon: 16, time: 0});
             },
             done: function(res){
                 //如果上传失败
-                if(res.code != 0){
+                if(res.code == 1){
                     return layer.msg('上传失败');
                 }
+                dirname = res.name;
+                console.log(dirname);
                 // document.getElementById("demo2").InnerHTML = res.data;
                 //上传成功的一些操作
                 //……
@@ -124,7 +123,7 @@
             //进度条
             progress: function(n, elem, e){
                 element.progress('demo', n + '%'); //可配合 layui 进度条元素使用
-                if(n == 100){
+                if (n == 100) {
                     layer.msg('上传完毕', {icon: 1});
                 }
             }
@@ -137,22 +136,26 @@
             $ = layui.$;
         //监听提交 字形
         form.on('submit(saveBtn)', function (data) {
+            if (dirname == null) {
+                layer.msg('您还未添加图片!');
+                return false;
+            }
             var jsonData = JSON.stringify(data.field);
             var index = layer.alert(jsonData, {
                 title: '请检查添加信息后确认'
             }, function () {
                 $.ajax({
                     type: "post",
-                    url: "/admin/editZiXing",
+                    url: "/admin/editZiXing?dir=" + dirname + "&",
                     data: data.field,
                     dataType: "json", //返回数据类型 - JSONP处理ajax跨域问题
-                    success: function(event){
+                    success: function(event) {
                         if(event){
                             layer.msg('保存成功');
                             layer.close(index);
                             var iframeIndex = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(iframeIndex);
-                        }else{
+                        } else {
                             layer.msg('保存失败');
                             layer.close(index);
                         }
@@ -161,7 +164,6 @@
             });
             return false;
         });
-
     });
 
 

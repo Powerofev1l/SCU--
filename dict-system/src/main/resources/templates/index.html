@@ -127,7 +127,7 @@
 
     </div>
 </div>
-<input type="hidden" class="info" th:value="${session.TYPE}">
+<input type="hidden" class="info"  th:if="${session.ADMIN != null}" th:text="2">
 <script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script>
@@ -136,8 +136,8 @@
             layer = layui.layer,
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji;
-
-        var i = $('.info').val() == 'admin' ? 2 : '';
+        console.log($('.info').val());
+        var i = $('.info').val() != null ? 2 : '';
         var url = "api/init" + i + ".json";
         console.log(i);
         console.log($('.info').val());
